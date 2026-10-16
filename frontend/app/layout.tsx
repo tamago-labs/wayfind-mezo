@@ -4,7 +4,7 @@ import Footer from "@/components/landing/Footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Wayfind | Grok Bot Templates for Mezo",
+  title: "Wayfind | Grok Bot Templates for Web3",
   description:
     "Download bot templates that help Grok Bot access onchain data, automate financial workflows, and interact with Mezo applications.",
 };
