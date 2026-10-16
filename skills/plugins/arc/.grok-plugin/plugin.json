@@ -1,0 +1,29 @@
+{
+  "name": "arc",
+  "version": "1.0.0",
+  "description": "Arc agent skills and MCP server for wallet operations, Circle Unified Balance (deposit/spend cross-chain), token swaps, and earn vault management on Arc. Runs as stdio MCP on the Grok Bot computer; owners set ARC_PRIVATE_KEY and ARC_CHAIN in bot env after install.",
+  "author": {
+    "name": "Tamago Labs",
+    "email": "pisuth@tamagolabs.com"
+  },
+  "homepage": "https://arc.io",
+  "repository": "https://github.com/tamago-labs/wayfind-arc",
+  "license": "MIT",
+  "mcpServers": "./.grok-plugin/mcp.json",
+  "skills": [
+    "./skills/arc/"
+  ],
+  "keywords": [
+    "arc",
+    "circle",
+    "unified-balance",
+    "earn",
+    "swap",
+    "cross-chain",
+    "usdc",
+    "trading",
+    "mcp",
+    "agent-skills",
+    "grok-bot"
+  ]
+}

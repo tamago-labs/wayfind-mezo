@@ -1,0 +1,12 @@
+{
+  "name": "arc",
+  "version": "1.0.0",
+  "description": "Arc agent skills and MCP server for wallet operations, Circle Unified Balance (deposit/spend cross-chain), token swaps, and earn vault management. Trade, manage, and earn on Arc using Circle App Kits.",
+  "author": {
+    "name": "Tamago Labs",
+    "email": "contact@tamagolabs.com"
+  },
+  "homepage": "https://arc.io",
+  "repository": "https://github.com/tamago-labs/wayfind-arc",
+  "license": "MIT"
+}
