@@ -11,16 +11,16 @@ export default function Hero() {
       <div className="relative flex flex-col items-center text-center">
         <Section className="max-w-2xl">
           <h1 className="font-display text-3xl md:text-5xl font-bold tracking-tight leading-[1.1]">
-            Turn Grok Bot into an<br />
+            Put Your Bitcoin to Work<br />
             <span className="bg-gradient-to-r from-arcblue via-accent to-accent2 bg-clip-text text-transparent">
-              Onchain Operator
+              with Grok Bot
             </span>
           </h1>
         </Section>
 
         <Section className="max-w-2xl">
           <p className="mt-5 text-[11px] sm:text-[15px] text-white/50 leading-relaxed">
-            Download bot templates that help <span className="text-accent font-semibold">Grok Bot</span> access onchain data, execute transactions, and automate financial operations across <span className="text-accent font-semibold">Arc</span> applications.
+            Download bot templates that let <span className="text-accent font-semibold">Grok Bot</span> manage BTC-backed loans, watch collateral health, and automate Bitcoin finance on <span className="text-accent font-semibold">Mezo</span>.
           </p>
         </Section>
 

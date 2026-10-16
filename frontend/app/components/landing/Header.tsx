@@ -6,7 +6,6 @@ import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const navLinks = [
-  { href: '/showcases', label: 'Showcases' },
   { href: '/templates', label: 'Templates' },
   { href: '/tools', label: 'Tools' },
   { href: '/#how-it-works', label: 'How it works' },
