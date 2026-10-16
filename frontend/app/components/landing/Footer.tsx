@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
         <p className="text-[12px] text-white/30">© 2026 Tamago Labs</p>
         <div className="flex items-center gap-6 text-[12px] text-white/30">
-          <Link href="https://github.com/tamago-labs/wayfind-arc" target="_blank" rel="noopener noreferrer" className="hover:text-white/60 transition-colors">GitHub</Link>
+          <Link href="https://github.com/tamago-labs/wayfind-mezo" target="_blank" rel="noopener noreferrer" className="hover:text-white/60 transition-colors">GitHub</Link>
           <Link href="https://x.com/WayfindZZZ" target="_blank" rel="noopener noreferrer" className="hover:text-white/60 transition-colors">Twitter/X</Link>
         </div>
       </div>
