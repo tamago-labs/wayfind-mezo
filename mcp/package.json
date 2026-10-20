@@ -1,11 +1,11 @@
 {
-  "name": "@tamago-labs/wayfind-mezo-mcp",
+  "name": "@tamago-labs/wayfind-mezo",
   "version": "0.1.0",
   "main": "dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "bin": {
-    "wayfind-mezo-mcp": "dist/index.js"
+    "wayfind-mezo": "dist/index.js"
   },
   "scripts": {
     "build": "tsup",
