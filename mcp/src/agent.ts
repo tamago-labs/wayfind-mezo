@@ -1,23 +1,22 @@
-import { ethers } from "ethers";
-import { loadArcConfig, type ArcConfig } from "./config";
+import type { AppConfig } from "./config";
+import { getNetwork } from "./config";
+import { loadChainData, type ChainData } from "./utils/chain-data";
 
 export class Agent {
-  public walletAddress: string;
-  public config: ArcConfig;
-  private provider: ethers.JsonRpcProvider;
-  private signer: ethers.Wallet;
+  public evmAddress: string;
+  public btcAddress: string;
+  private config: AppConfig;
+  public chains: ChainData[];
 
-  private constructor(config: ArcConfig, provider: ethers.JsonRpcProvider, signer: ethers.Wallet) {
+  private constructor(config: AppConfig, chains: ChainData[]) {
+    this.evmAddress = config.evmAddress;
+    this.btcAddress = config.btcAddress;
     this.config = config;
-    this.provider = provider;
-    this.signer = signer;
-    this.walletAddress = signer.address;
+    this.chains = chains;
   }
 
-  static async create(): Promise<Agent> {
-    const config = loadArcConfig();
-    const provider = new ethers.JsonRpcProvider(config.rpcUrl);
-    const signer = new ethers.Wallet(config.privateKey, provider);
-    return new Agent(config, provider, signer);
+  static async create(config: AppConfig): Promise<Agent> {
+    const chains = loadChainData(getNetwork());
+    return new Agent(config, chains);
   }
 }
