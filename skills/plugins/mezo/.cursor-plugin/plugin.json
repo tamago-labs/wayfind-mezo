@@ -1,0 +1,5 @@
+{
+  "name": "mezo",
+  "version": "1.0.0",
+  "description": "Mezo agent skills and MCP server for wallet operations, MUSD borrowing, trove management, Stability Pool staking, redemptions, and liquidations. Mint MUSD against BTC collateral on Mezo."
+}

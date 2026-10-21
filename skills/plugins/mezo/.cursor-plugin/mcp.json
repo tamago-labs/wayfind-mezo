@@ -1,0 +1,15 @@
+{
+  "name": "mezo",
+  "version": "1.0.0",
+  "description": "Mezo agent skills and MCP server for wallet operations, MUSD borrowing, trove management, Stability Pool staking, redemptions, and liquidations. Mint MUSD against BTC collateral on Mezo.",
+  "mcpServers": {
+    "wayfind-mcp": {
+      "type": "local",
+      "command": ["npx", "-y", "@tamago-labs/wayfind-mezo"],
+      "environment": {
+        "WALLET_PASSKEY": "your-secure-passphrase-here",
+        "WAYFIND_NETWORK": "testnet"
+      }
+    }
+  }
+}
