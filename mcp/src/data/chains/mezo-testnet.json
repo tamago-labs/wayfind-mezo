@@ -3,5 +3,7 @@
   "network": "testnet",
   "chainId": 31611,
   "nativeCurrency": { "symbol": "BTC", "name": "Bitcoin", "decimals": 18 },
-  "tokens": []
+  "tokens": [
+    { "symbol": "MEZO", "name": "MEZO", "decimals": 18, "address": "0x7B7c000000000000000000000000000000000001" }
+  ]
 }

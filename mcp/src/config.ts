@@ -42,6 +42,7 @@ export interface AppConfig {
   evmAddress: string;
   evmPrivateKey: string;
   btcAddress: string;
+  seed: Buffer;
   evmRpcUrls: Record<string, string>;
 }
 
@@ -182,6 +183,7 @@ export async function validateEnvironment(): Promise<AppConfig> {
 
   return {
     ...keys,
+    seed: Buffer.from(seed),
     evmRpcUrls: Object.fromEntries(
       Object.entries(RPC_POOLS[getNetwork()]).map(([chain, urls]) => [chain, pickRpc(urls)])
     ),
