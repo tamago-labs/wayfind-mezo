@@ -141,3 +141,31 @@ export async function fetchInterestRate(rpcUrl: string) {
     maxRate: formatUnits(maxRate, 18),
   };
 }
+
+export async function fetchProtocolConstants(rpcUrl: string) {
+  const troveManager = getTroveManager(rpcUrl);
+  const borrowerOps = getBorrowerOps(rpcUrl);
+
+  const [ccr, mcr, redemptionRate] = await Promise.all([
+    troveManager.CCR(),
+    troveManager.MCR(),
+    borrowerOps.redemptionRate(),
+  ]);
+
+  return {
+    ccr: `${(Number(ccr) / 1e18 * 100).toFixed(2)}%`,
+    mcr: `${(Number(mcr) / 1e18 * 100).toFixed(2)}%`,
+    redemptionRate: formatUnits(redemptionRate, 18),
+    redemptionFeePercent: `${(Number(redemptionRate) / 1e18 * 100).toFixed(2)}%`,
+  };
+}
+
+export async function fetchMaxBorrowingCapacity(rpcUrl: string, borrower: string) {
+  const troveManager = getTroveManager(rpcUrl);
+  const capacity = await troveManager.getTroveMaxBorrowingCapacity(borrower);
+
+  return {
+    borrower,
+    maxBorrowingCapacity: formatUnits(capacity, 18),
+  };
+}

@@ -15,6 +15,7 @@ export const MUSD_CONTRACTS = {
 
 export const BORROWER_OPS_ABI = [
   "function getBorrowingFee(uint256 _MUSDAmount) view returns (uint256)",
+  "function redemptionRate() view returns (uint256)",
   "function MUSD_GAS_COMPENSATION() view returns (uint256)",
   "function openTrove(uint256 _maxFeePercentage, uint256 _MUSDAmount, address _upperHint, address _lowerHint) payable",
   "function addColl(address _upperHint, address _lowerHint) payable",
@@ -42,6 +43,9 @@ export const TROVE_MANAGER_ABI = [
   "function L_Collateral() view returns (uint256)",
   "function L_Principal() view returns (uint256)",
   "function L_Interest() view returns (uint256)",
+  "function CCR() view returns (uint256)",
+  "function MCR() view returns (uint256)",
+  "function getTroveMaxBorrowingCapacity(address _borrower) view returns (uint256)",
   "function liquidate(address _borrower)",
   "function batchLiquidateTroves(address[] _troveArray)",
   "function redeemCollateral(uint256 _MUSDAmount, address _firstRedeemHint, address _upperPartialRedemptionHint, address _lowerPartialRedemptionHint, uint256 _partialRedemptionHintNICR, uint256 _maxIterations, uint256 _maxFeePercentage)",

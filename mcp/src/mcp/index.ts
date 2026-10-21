@@ -23,4 +23,8 @@ export const McpTools: Record<string, McpTool> = {
   MusdCloseTrove: MusdTools.MusdCloseTroveTool,
   MusdStakeMUSD: MusdTools.MusdStakeMUSDTools,
   MusdUnstakeMUSD: MusdTools.MusdUnstakeMUSDTools,
+  MusdProtocolConstants: MusdTools.MusdProtocolConstantsTool,
+  MusdMaxBorrowingCapacity: MusdTools.MusdMaxBorrowingCapacityTool,
+  MusdRedeem: MusdTools.MusdRedeemTool,
+  MusdLiquidate: MusdTools.MusdLiquidateTool,
 };

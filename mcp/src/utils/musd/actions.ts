@@ -155,3 +155,38 @@ export async function unstakeMUSD(rpcUrl: string, privateKey: string, amount: st
 
   return { signature: receipt?.hash, withdrawn: amount };
 }
+
+export async function redeemMUSD(
+  rpcUrl: string,
+  privateKey: string,
+  musdAmount: string,
+  maxFeePercentage: string
+) {
+  const provider = new JsonRpcProvider(rpcUrl);
+  const wallet = new Wallet(privateKey, provider);
+  const troveManager = new Contract(getContracts().troveManager, TROVE_MANAGER_ABI, wallet);
+
+  const tx = await troveManager.redeemCollateral(
+    BigInt(musdAmount),
+    "0x0000000000000000000000000000000000000000",
+    "0x0000000000000000000000000000000000000000",
+    "0x0000000000000000000000000000000000000000",
+    "0",
+    "0",
+    BigInt(maxFeePercentage)
+  );
+  const receipt = await tx.wait();
+
+  return { signature: receipt?.hash, redeemed: musdAmount };
+}
+
+export async function liquidateTrove(rpcUrl: string, privateKey: string, borrower: string) {
+  const provider = new JsonRpcProvider(rpcUrl);
+  const wallet = new Wallet(privateKey, provider);
+  const troveManager = new Contract(getContracts().troveManager, TROVE_MANAGER_ABI, wallet);
+
+  const tx = await troveManager.liquidate(borrower);
+  const receipt = await tx.wait();
+
+  return { signature: receipt?.hash, liquidated: borrower };
+}
