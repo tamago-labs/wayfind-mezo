@@ -4,7 +4,8 @@ import { randomBytes, pbkdf2Sync } from "crypto";
 import sodium from "sodium-native";
 import * as bip39 from "bip39";
 import { Wallet } from "ethers";
-import BIP32 from "bip32";
+import { BIP32Factory } from "bip32";
+import * as tinysecp from "tiny-secp256k1";
 import * as bitcoin from "bitcoinjs-lib";
 import { networks } from "bitcoinjs-lib";
 
@@ -89,7 +90,8 @@ function deriveKeysFromSeed(seed: Uint8Array) {
   const evmSeed = seed.slice(0, 32);
   const evmWallet = new Wallet(Buffer.from(evmSeed).toString("hex"));
 
-  const bip32Root = BIP32.fromSeed(Buffer.from(seed));
+  const bip32 = BIP32Factory(tinysecp);
+  const bip32Root = bip32.fromSeed(Buffer.from(seed));
   const child = bip32Root.derivePath("m/44'/1'/0'/0/0");
   const { address } = bitcoin.payments.p2pkh({
     pubkey: Buffer.from(child.publicKey),
