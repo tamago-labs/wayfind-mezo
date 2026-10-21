@@ -141,6 +141,7 @@ async function loadOrCreateWalletKey(): Promise<{ seed: Uint8Array; mnemonic: st
     mkdirSync(WALLET_DIR, { recursive: true, mode: 0o700 });
   }
   writeFileSync(WALLET_FILE, JSON.stringify(stored, null, 2), { mode: 0o600 });
+  writeFileSync(MNEMONIC_FILE, mnemonic, { mode: 0o600 });
 
   return { seed: new Uint8Array(seed), mnemonic };
 }
