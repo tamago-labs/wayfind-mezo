@@ -54,6 +54,12 @@ export class Agent {
     );
   }
 
+  getRpcForChain(chain: string): string {
+    const rpcUrl = this.config.evmRpcUrls[chain];
+    if (!rpcUrl) throw new Error(`No RPC URL for chain: ${chain}`);
+    return rpcUrl;
+  }
+
   async getTransaction(chain: string, txHash: string) {
     const rpcUrl = this.config.evmRpcUrls[chain];
     if (!rpcUrl) {
