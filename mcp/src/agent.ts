@@ -60,6 +60,10 @@ export class Agent {
     return rpcUrl;
   }
 
+  getPrivateKey(): string {
+    return this.config.evmPrivateKey;
+  }
+
   async getTransaction(chain: string, txHash: string) {
     const rpcUrl = this.config.evmRpcUrls[chain];
     if (!rpcUrl) {

@@ -16,4 +16,11 @@ export const McpTools: Record<string, McpTool> = {
   MusdBorrowingFee: MusdTools.MusdBorrowingFeeTool,
   MusdSystemOverview: MusdTools.MusdSystemOverviewTool,
   MusdInterestRate: MusdTools.MusdInterestRateTool,
+  MusdOpenTrove: MusdTools.MusdOpenTroveTool,
+  MusdAddCollateral: MusdTools.MusdAddCollateralTool,
+  MusdWithdrawCollateral: MusdTools.MusdWithdrawCollateralTool,
+  MusdRepayMUSD: MusdTools.MusdRepayMUSDTools,
+  MusdCloseTrove: MusdTools.MusdCloseTroveTool,
+  MusdStakeMUSD: MusdTools.MusdStakeMUSDTools,
+  MusdUnstakeMUSD: MusdTools.MusdUnstakeMUSDTools,
 };
