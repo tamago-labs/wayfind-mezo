@@ -2,8 +2,6 @@
   "chain": "mezo",
   "network": "testnet",
   "chainId": 31611,
-  "rpcUrl": "https://rpc.test.mezo.org",
-  "explorerUrl": "https://explorer.test.mezo.org",
   "nativeCurrency": { "symbol": "BTC", "name": "Bitcoin", "decimals": 18 },
   "tokens": []
 }

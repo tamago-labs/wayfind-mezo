@@ -12,8 +12,6 @@ export interface ChainData {
   chain: string;
   network: string;
   chainId: number;
-  rpcUrl: string;
-  explorerUrl: string;
   nativeCurrency: { symbol: string; name: string; decimals: number };
   tokens: ChainToken[];
 }

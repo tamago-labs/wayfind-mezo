@@ -15,6 +15,21 @@ const MNEMONIC_FILE = join(WALLET_DIR, "REMOVE_AFTER_BACKUP.txt");
 
 type Network = "testnet" | "mainnet";
 
+const RPC_POOLS: Record<Network, Record<string, string[]>> = {
+  testnet: {
+    mezo: ["https://rpc.test.mezo.org"],
+    ethereum: [
+      "https://ethereum-sepolia-rpc.publicnode.com",
+      "https://rpc.sepolia.org",
+    ],
+  },
+  mainnet: {},
+};
+
+function pickRpc(urls: string[]): string {
+  return urls[Math.floor(Math.random() * urls.length)];
+}
+
 export function getNetwork(): Network {
   const network = process.env.WAYFIND_NETWORK?.toLowerCase();
   if (network === "mainnet") {
@@ -27,6 +42,7 @@ export interface AppConfig {
   evmAddress: string;
   evmPrivateKey: string;
   btcAddress: string;
+  evmRpcUrls: Record<string, string>;
 }
 
 interface StoredWallet {
@@ -166,5 +182,8 @@ export async function validateEnvironment(): Promise<AppConfig> {
 
   return {
     ...keys,
+    evmRpcUrls: Object.fromEntries(
+      Object.entries(RPC_POOLS[getNetwork()]).map(([chain, urls]) => [chain, pickRpc(urls)])
+    ),
   };
 }
