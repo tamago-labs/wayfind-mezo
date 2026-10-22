@@ -37,8 +37,9 @@ async function fetchPrice(rpcUrl: string): Promise<bigint> {
 export async function fetchTroveStatus(rpcUrl: string, borrower: string) {
   const troveManager = getTroveManager(rpcUrl);
   const price = await fetchPrice(rpcUrl);
+  const irm = getInterestRateManager(rpcUrl);
 
-  const [status, coll, debt, principal, interestOwed, pendingDebt, pendingColl, nominalICR, lastUpdateTime] = await Promise.all([
+  const results = await Promise.all([
     troveManager.getTroveStatus(borrower),
     troveManager.getTroveColl(borrower),
     troveManager.getTroveDebt(borrower),
@@ -48,29 +49,41 @@ export async function fetchTroveStatus(rpcUrl: string, borrower: string) {
     troveManager.getPendingCollateral(borrower),
     troveManager.getNominalICR(borrower),
     troveManager.getTroveStake(borrower),
+    irm.interestRate(),
   ]);
 
-  const currentICR = coll > 0n && debt > 0n
-    ? ((coll * price) / debt * 100n).toString()
-    : "0";
-  const currentICRNum = Number(currentICR) / 1e18;
-  const currentICRDisplay = currentICRNum > 0 && currentICRNum < 1e6
-    ? `${currentICRNum.toFixed(2)}%`
-    : "N/A";
+  const status = results[0];
+  const coll = results[1];
+  const debt = results[2];
+  const principal = results[3];
+  const interestOwed = results[4];
+  const pendingDebt = results[5];
+  const pendingColl = results[6];
+  const nominalICR = results[7];
+  const lastUpdateTime = results[8];
+  const apr = results[9];
+
+  const icrValue = coll > 0n && debt > 0n ? ((coll * price) / debt * 100n) : 0n;
+  const icrNum = Number(icrValue) / 1e18;
+  const icrDisplay = icrNum > 0 && icrNum < 1e6 ? `${icrNum.toFixed(2)}%` : "N/A";
+
+  const rawRate = Number(apr);
+  const aprDisplay = rawRate > 0 ? `${(rawRate / 100).toFixed(2)}% Fixed` : "0.00%";
 
   return {
     borrower,
     status: Number(status) === 0 ? "closed" : Number(status) === 1 ? "open" : "liquidated",
     collateral: formatUnits(coll, 18),
     totalDebt: formatUnits(debt, 18),
-    netDebt: formatUnits(debt - 200000000000000000000n > 0n ? debt - 200000000000000000000n : 0n, 18),
+    netDebt: formatUnits(debt > 200000000000000000000n ? debt - 200000000000000000000n : 0n, 18),
     principal: formatUnits(principal, 18),
     interestOwed: formatUnits(interestOwed, 18),
     pendingDebt: formatUnits(pendingDebt, 18),
     pendingCollateral: formatUnits(pendingColl, 18),
-    icr: currentICRDisplay,
+    icr: icrDisplay,
     nominalICR: nominalICR > 0n ? `${(Number(nominalICR) / 1e20 * 100).toFixed(2)}%` : "N/A",
     stake: formatUnits(lastUpdateTime, 0),
+    interestRate: aprDisplay,
   };
 }
 
@@ -86,18 +99,27 @@ export async function fetchMusdBalance(rpcUrl: string, account: string) {
 
 export async function fetchStabilityPoolInfo(rpcUrl: string, depositor: string) {
   const sp = getStabilityPool(rpcUrl);
+  const irm = getInterestRateManager(rpcUrl);
 
-  const [compoundedDeposit, collateralGain, totalDeposits] = await Promise.all([
+  const [compoundedDeposit, collateralGain, totalDeposits, apr] = await Promise.all([
     sp.getCompoundedMUSDDeposit(depositor),
     sp.getDepositorCollateralGain(depositor),
     sp.getTotalMUSDDeposits(),
+    irm.interestRate(),
   ]);
+
+  const staked = compoundedDeposit > 0n ? Number(compoundedDeposit) : 0;
+  const total = totalDeposits > 0n ? Number(totalDeposits) : 1;
+  const sharePct = ((staked / total) * 100).toFixed(4);
 
   return {
     depositor,
     stakedMUSD: formatUnits(compoundedDeposit, 18),
     collateralGain: formatUnits(collateralGain, 18),
     totalPoolDeposits: formatUnits(totalDeposits, 18),
+    yourShare: `${sharePct}%`,
+    interestRate: `${(Number(apr) / 100).toFixed(2)}% Fixed`,
+    note: "Staking yield comes from liquidations (BTC gains) + borrowing interest."
   };
 }
 
@@ -142,8 +164,8 @@ export async function fetchInterestRate(rpcUrl: string) {
   ]);
 
   return {
-    currentRate: formatUnits(rate, 18),
-    maxRate: formatUnits(maxRate, 18),
+    interestRate: `${(Number(rate) / 100).toFixed(2)}% Fixed`,
+    maxInterestRate: `${(Number(maxRate) / 100).toFixed(2)}%`,
   };
 }
 
@@ -151,10 +173,12 @@ export async function fetchProtocolConstants(rpcUrl: string) {
   const troveManager = getTroveManager(rpcUrl);
   const borrowerOps = getBorrowerOps(rpcUrl);
 
-  const [ccr, mcr, redemptionRate] = await Promise.all([
+  const irm = getInterestRateManager(rpcUrl);
+  const [ccr, mcr, redemptionRate, borrowApr] = await Promise.all([
     troveManager.CCR(),
     troveManager.MCR(),
     borrowerOps.redemptionRate(),
+    irm.interestRate(),
   ]);
 
   return {
@@ -162,6 +186,7 @@ export async function fetchProtocolConstants(rpcUrl: string) {
     mcr: `${(Number(mcr) / 1e18 * 100).toFixed(2)}%`,
     redemptionRate: formatUnits(redemptionRate, 18),
     redemptionFeePercent: `${(Number(redemptionRate) / 1e18 * 100).toFixed(2)}%`,
+    borrowingInterestRate: `${(Number(borrowApr) / 100).toFixed(2)}% Fixed`,
   };
 }
 
