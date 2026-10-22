@@ -1,5 +1,5 @@
 import { JsonRpcProvider, Wallet, Contract } from "ethers";
-import { MUSD_CONTRACTS, BORROWER_OPS_ABI, STABILITY_POOL_ABI, SORTED_TROVES_ABI, HINT_HELPERS_ABI, TROVE_MANAGER_ABI } from "./contracts";
+import { MUSD_CONTRACTS, BORROWER_OPS_ABI, STABILITY_POOL_ABI, SORTED_TROVES_ABI, HINT_HELPERS_ABI, TROVE_MANAGER_ABI, ERC20_MINIMAL_ABI } from "./contracts";
 
 function getContracts() {
   return MUSD_CONTRACTS.testnet;
@@ -155,9 +155,13 @@ export async function closeTrove(rpcUrl: string, privateKey: string) {
 export async function stakeMUSD(rpcUrl: string, privateKey: string, amount: string) {
   const provider = new JsonRpcProvider(rpcUrl);
   const wallet = new Wallet(privateKey, provider);
-  const sp = new Contract(getContracts().stabilityPool, STABILITY_POOL_ABI, wallet);
 
-  const tx = await sp.provideToSP(b(amount), "0x0000000000000000000000000000000000000000", "0x0000000000000000000000000000000000000000");
+  const musd = new Contract(getContracts().musdToken, ERC20_MINIMAL_ABI, wallet);
+  const approveTx = await musd.approve(getContracts().stabilityPool, b(amount));
+  await approveTx.wait();
+
+  const sp = new Contract(getContracts().stabilityPool, STABILITY_POOL_ABI, wallet);
+  const tx = await sp.provideToSP(b(amount));
   const receipt = await tx.wait();
 
   return { signature: receipt?.hash, staked: amount };
@@ -168,7 +172,7 @@ export async function unstakeMUSD(rpcUrl: string, privateKey: string, amount: st
   const wallet = new Wallet(privateKey, provider);
   const sp = new Contract(getContracts().stabilityPool, STABILITY_POOL_ABI, wallet);
 
-  const tx = await sp.withdrawFromSP(b(amount), "0x0000000000000000000000000000000000000000", "0x0000000000000000000000000000000000000000");
+  const tx = await sp.withdrawFromSP(b(amount));
   const receipt = await tx.wait();
 
   return { signature: receipt?.hash, withdrawn: amount };

@@ -60,8 +60,8 @@ export const STABILITY_POOL_ABI = [
   "function getEntireSystemDebt() view returns (uint256)",
   "function getCollateralBalance() view returns (uint256)",
   "function P() view returns (uint256)",
-  "function provideToSP(uint256 _amount, address _upperHint, address _lowerHint)",
-  "function withdrawFromSP(uint256 _amount, address _upperHint, address _lowerHint)",
+  "function provideToSP(uint256 _amount)",
+  "function withdrawFromSP(uint256 _amount)",
   "function withdrawCollateralGainToTrove(address _upperHint, address _lowerHint)",
 ] as const;
 
