@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { Agent } from "../../agent";
-import type { McpTool } from "../../types";
-import { liquidateTrove } from "../utils/musd/actions";
+import { Agent } from "../agent";
+import type { McpTool } from "../types";
+import { liquidateTrove } from "../../utils/musd/actions";
 
 export const MusdLiquidateTool: McpTool = {
   name: "musd_liquidate",
@@ -14,3 +14,4 @@ export const MusdLiquidateTool: McpTool = {
     return liquidateTrove(rpcUrl, agent.getPrivateKey(), input.borrower);
   },
 };
+

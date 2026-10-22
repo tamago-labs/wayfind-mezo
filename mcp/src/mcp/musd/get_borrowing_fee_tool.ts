@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { parseEther } from "ethers";
-import { Agent } from "../../agent";
-import type { McpTool } from "../../types";
-import { fetchBorrowingFee } from "../utils/musd/queries";
+import { Agent } from "../agent";
+import type { McpTool } from "../types";
+import { fetchBorrowingFee } from "../../utils/musd/queries";
 
 export const MusdBorrowingFeeTool: McpTool = {
   name: "musd_get_borrowing_fee",
@@ -15,3 +15,4 @@ export const MusdBorrowingFeeTool: McpTool = {
     return fetchBorrowingFee(rpcUrl, parseEther(input.amount).toString());
   },
 };
+

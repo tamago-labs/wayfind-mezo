@@ -108,7 +108,7 @@ WALLET_PASSKEY="new-passphrase" npx tsx scripts/recover-wallet.ts "your mnemonic
 |------|-------------|
 | `get_wallet_address` | Get EVM + BTC addresses |
 | `get_balances` | Native + token balances per chain |
-| `send_tokens` | Send BTC, ETH, ERC-20 tokens |
+| `send_tokens` | Send BTC, ETH, ERC-20 tokens. Accepts human-readable amounts. |
 | `get_transaction` | Transaction lookup by hash |
 
 ### MUSD Query (read-only)
@@ -207,9 +207,11 @@ mcp/
 ├── src/
 │   ├── agent.ts           # Agent class — routes to utils
 │   ├── config.ts          # Passkey wallet, RPC pools, chain loading
-│   ├── index.ts           # MCP server bootstrap + tool registration
-│   ├── musd/              # MUSD tool definitions (20 tools)
-│   ├── mcp/index.ts       # Tool registry
+│   ├── index.ts           # MCP server bootstrap
+│   ├── mcp/
+│   │   ├── index.ts       # Tool registry
+│   │   ├── musd/          # MUSD tool definitions (15 tools)
+│   │   └── shared/        # Shared wallet tools
 │   ├── types.ts           # McpTool interface
 │   └── utils/
 │       ├── evm-balance.ts # EVM native + ERC-20 balance queries

@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { parseEther } from "ethers";
-import { Agent } from "../../agent";
-import type { McpTool } from "../../types";
-import { stakeMUSD, unstakeMUSD } from "../utils/musd/actions";
+import { Agent } from "../agent";
+import type { McpTool } from "../types";
+import { stakeMUSD, unstakeMUSD } from "../../utils/musd/actions";
 
 export const MusdStakeMUSDTools: McpTool = {
   name: "musd_stake_musd",
@@ -27,3 +27,4 @@ export const MusdUnstakeMUSDTools: McpTool = {
     return unstakeMUSD(rpcUrl, agent.getPrivateKey(), parseEther(input.amount).toString());
   },
 };
+

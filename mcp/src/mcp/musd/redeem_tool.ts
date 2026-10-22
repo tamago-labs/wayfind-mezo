@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { parseEther } from "ethers";
-import { Agent } from "../../agent";
-import type { McpTool } from "../../types";
-import { redeemMUSD } from "../utils/musd/actions";
+import { Agent } from "../agent";
+import type { McpTool } from "../types";
+import { redeemMUSD } from "../../utils/musd/actions";
 
 export const MusdRedeemTool: McpTool = {
   name: "musd_redeem",
@@ -16,3 +16,4 @@ export const MusdRedeemTool: McpTool = {
     return redeemMUSD(rpcUrl, agent.getPrivateKey(), parseEther(input.musdAmount).toString(), input.maxFeePercentage);
   },
 };
+

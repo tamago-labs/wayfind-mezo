@@ -29,14 +29,14 @@ Get native and token balances for a specific chain.
 ---
 
 ### `send_tokens`
-Send native and ERC-20 tokens on EVM chains, or BTC on Bitcoin.
+Send native and ERC-20 tokens on EVM chains, or BTC on Bitcoin. Accepts human-readable amounts.
 
 **Parameters:**
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | `chain` | string | Yes | `mezo`, `ethereum`, or `bitcoin` |
 | `token` | string | Yes | Token symbol (e.g., `BTC`, `ETH`, `MEZO`, `USDC`) |
-| `amount` | string | Yes | Amount in base units (wei/satoshi) |
+| `amount` | string | Yes | Amount in human-readable format (e.g., `0.01` for 0.01 BTC/ETH) |
 | `recipient` | string | Yes | Recipient address |
 
 **Returns:** `{ signature, chain, token, amount, recipient }`

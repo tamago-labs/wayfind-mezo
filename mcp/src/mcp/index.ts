@@ -3,7 +3,7 @@ import { GetWalletAddressTool } from "./shared/get_wallet_address_tool";
 import { GetBalancesTool } from "./shared/get_balances_tool";
 import { GetTransactionTool } from "./shared/get_transaction_tool";
 import { SendTokensTool } from "./shared/send_tokens_tool";
-import * as MusdTools from "../musd";
+import * as MusdTools from "./musd";
 
 export const McpTools: Record<string, McpTool> = {
   GetWalletAddress: GetWalletAddressTool,

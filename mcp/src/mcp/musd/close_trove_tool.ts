@@ -1,6 +1,6 @@
-import { Agent } from "../../agent";
-import type { McpTool } from "../../types";
-import { closeTrove } from "../utils/musd/actions";
+import { Agent } from "../agent";
+import type { McpTool } from "../types";
+import { closeTrove } from "../../utils/musd/actions";
 
 export const MusdCloseTroveTool: McpTool = {
   name: "musd_close_trove",
@@ -11,3 +11,4 @@ export const MusdCloseTroveTool: McpTool = {
     return closeTrove(rpcUrl, agent.getPrivateKey());
   },
 };
+

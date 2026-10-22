@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { Agent } from "../../agent";
-import type { McpTool } from "../../types";
-import { fetchTroveStatus } from "../utils/musd/queries";
+import { Agent } from "../agent";
+import type { McpTool } from "../types";
+import { fetchTroveStatus } from "../../utils/musd/queries";
 
 export const MusdTroveStatusTool: McpTool = {
   name: "musd_get_trove_status",
@@ -15,3 +15,4 @@ export const MusdTroveStatusTool: McpTool = {
     return fetchTroveStatus(rpcUrl, borrower);
   },
 };
+

@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { Agent } from "../../agent";
-import type { McpTool } from "../../types";
-import { fetchStabilityPoolInfo } from "../utils/musd/queries";
+import { Agent } from "../agent";
+import type { McpTool } from "../types";
+import { fetchStabilityPoolInfo } from "../../utils/musd/queries";
 
 export const MusdStabilityPoolTool: McpTool = {
   name: "musd_get_stability_pool",
@@ -15,3 +15,4 @@ export const MusdStabilityPoolTool: McpTool = {
     return fetchStabilityPoolInfo(rpcUrl, depositor);
   },
 };
+

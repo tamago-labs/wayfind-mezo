@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { Agent } from "../../agent";
-import type { McpTool } from "../../types";
-import { fetchMaxBorrowingCapacity } from "../utils/musd/queries";
+import { Agent } from "../agent";
+import type { McpTool } from "../types";
+import { fetchMaxBorrowingCapacity } from "../../utils/musd/queries";
 
 export const MusdMaxBorrowingCapacityTool: McpTool = {
   name: "musd_get_max_borrowing_capacity",
@@ -15,3 +15,4 @@ export const MusdMaxBorrowingCapacityTool: McpTool = {
     return fetchMaxBorrowingCapacity(rpcUrl, borrower);
   },
 };
+

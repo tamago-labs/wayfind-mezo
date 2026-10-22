@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { parseEther } from "ethers";
-import { Agent } from "../../agent";
-import type { McpTool } from "../../types";
-import { repayMUSD } from "../utils/musd/actions";
+import { Agent } from "../agent";
+import type { McpTool } from "../types";
+import { repayMUSD } from "../../utils/musd/actions";
 
 export const MusdRepayMUSDTools: McpTool = {
   name: "musd_repay_musd",
@@ -15,3 +15,4 @@ export const MusdRepayMUSDTools: McpTool = {
     return repayMUSD(rpcUrl, agent.getPrivateKey(), parseEther(input.musdAmount).toString());
   },
 };
+

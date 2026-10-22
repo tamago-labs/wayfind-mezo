@@ -1,6 +1,6 @@
-import { Agent } from "../../agent";
-import type { McpTool } from "../../types";
-import { fetchProtocolConstants } from "../utils/musd/queries";
+import { Agent } from "../agent";
+import type { McpTool } from "../types";
+import { fetchProtocolConstants } from "../../utils/musd/queries";
 
 export const MusdProtocolConstantsTool: McpTool = {
   name: "musd_get_protocol_constants",
@@ -11,3 +11,4 @@ export const MusdProtocolConstantsTool: McpTool = {
     return fetchProtocolConstants(rpcUrl);
   },
 };
+

@@ -1,6 +1,6 @@
-import { Agent } from "../../agent";
-import type { McpTool } from "../../types";
-import { fetchSystemOverview } from "../utils/musd/queries";
+import { Agent } from "../agent";
+import type { McpTool } from "../types";
+import { fetchSystemOverview } from "../../utils/musd/queries";
 
 export const MusdSystemOverviewTool: McpTool = {
   name: "musd_get_system_overview",
@@ -11,3 +11,4 @@ export const MusdSystemOverviewTool: McpTool = {
     return fetchSystemOverview(rpcUrl);
   },
 };
+

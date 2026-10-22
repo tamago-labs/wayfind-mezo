@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { parseEther } from "ethers";
-import { Agent } from "../../agent";
-import type { McpTool } from "../../types";
-import { openTrove } from "../utils/musd/actions";
+import { Agent } from "../agent";
+import type { McpTool } from "../types";
+import { openTrove } from "../../utils/musd/actions";
 
 export const MusdOpenTroveTool: McpTool = {
   name: "musd_open_trove",
@@ -18,3 +18,4 @@ export const MusdOpenTroveTool: McpTool = {
     return openTrove(rpcUrl, agent.getPrivateKey(), musdWei, collateralWei);
   },
 };
+

@@ -1,6 +1,6 @@
-import { Agent } from "../../agent";
-import type { McpTool } from "../../types";
-import { fetchInterestRate } from "../utils/musd/queries";
+import { Agent } from "../agent";
+import type { McpTool } from "../types";
+import { fetchInterestRate } from "../../utils/musd/queries";
 
 export const MusdInterestRateTool: McpTool = {
   name: "musd_get_interest_rate",
@@ -11,3 +11,4 @@ export const MusdInterestRateTool: McpTool = {
     return fetchInterestRate(rpcUrl);
   },
 };
+

@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { parseEther } from "ethers";
-import { Agent } from "../../agent";
-import type { McpTool } from "../../types";
-import { withdrawCollateral } from "../utils/musd/actions";
+import { Agent } from "../agent";
+import type { McpTool } from "../types";
+import { withdrawCollateral } from "../../utils/musd/actions";
 
 export const MusdWithdrawCollateralTool: McpTool = {
   name: "musd_withdraw_collateral",
@@ -15,3 +15,4 @@ export const MusdWithdrawCollateralTool: McpTool = {
     return withdrawCollateral(rpcUrl, agent.getPrivateKey(), parseEther(input.collateralAmount).toString());
   },
 };
+
