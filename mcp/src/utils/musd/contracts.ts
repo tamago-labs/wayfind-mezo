@@ -17,7 +17,7 @@ export const BORROWER_OPS_ABI = [
   "function getBorrowingFee(uint256 _MUSDAmount) view returns (uint256)",
   "function redemptionRate() view returns (uint256)",
   "function MUSD_GAS_COMPENSATION() view returns (uint256)",
-  "function openTrove(uint256 _maxFeePercentage, uint256 _MUSDAmount, address _upperHint, address _lowerHint) payable",
+  "function openTrove(uint256 _debtAmount, address _upperHint, address _lowerHint) payable",
   "function addColl(address _upperHint, address _lowerHint) payable",
   "function withdrawColl(uint256 _collWithdrawal, address _upperHint, address _lowerHint)",
   "function repayMUSD(uint256 _MUSDamount, address _upperHint, address _lowerHint)",

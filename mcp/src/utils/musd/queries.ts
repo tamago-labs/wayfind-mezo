@@ -50,8 +50,12 @@ export async function fetchTroveStatus(rpcUrl: string, borrower: string) {
     troveManager.getTroveStake(borrower),
   ]);
 
-  const currentICR = Number(coll) > 0 && Number(debt) > 0
-    ? ((Number(coll) * Number(price)) / Number(debt) * 100).toFixed(2)
+  const currentICR = coll > 0n && debt > 0n
+    ? ((coll * price) / debt * 100n).toString()
+    : "0";
+  const currentICRNum = Number(currentICR) / 1e18;
+  const currentICRDisplay = currentICRNum > 0 && currentICRNum < 1e6
+    ? `${currentICRNum.toFixed(2)}%`
     : "N/A";
 
   return {
@@ -59,12 +63,13 @@ export async function fetchTroveStatus(rpcUrl: string, borrower: string) {
     status: Number(status) === 0 ? "closed" : Number(status) === 1 ? "open" : "liquidated",
     collateral: formatUnits(coll, 18),
     totalDebt: formatUnits(debt, 18),
+    netDebt: formatUnits(debt - 200000000000000000000n > 0n ? debt - 200000000000000000000n : 0n, 18),
     principal: formatUnits(principal, 18),
     interestOwed: formatUnits(interestOwed, 18),
     pendingDebt: formatUnits(pendingDebt, 18),
     pendingCollateral: formatUnits(pendingColl, 18),
-    icr: `${currentICR}%`,
-    nominalICR: Number(nominalICR) > 0 ? `${(Number(nominalICR) / 1e18 * 100).toFixed(2)}%` : "N/A",
+    icr: currentICRDisplay,
+    nominalICR: nominalICR > 0n ? `${(Number(nominalICR) / 1e20 * 100).toFixed(2)}%` : "N/A",
     stake: formatUnits(lastUpdateTime, 0),
   };
 }
@@ -166,6 +171,8 @@ export async function fetchMaxBorrowingCapacity(rpcUrl: string, borrower: string
 
   return {
     borrower,
-    maxBorrowingCapacity: formatUnits(capacity, 18),
+    maxNetDebt: formatUnits(capacity, 18),
+    maxTotalDebt: formatUnits(capacity + 200000000000000000000n, 18),
+    liquidationDeposit: "200",
   };
 }

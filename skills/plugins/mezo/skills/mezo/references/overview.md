@@ -33,7 +33,7 @@ Mezo is a Bitcoin-native DeFi platform that lets BTC holders mint MUSD — a USD
 | CCR | 150% | Critical Collateral Ratio (below = Recovery Mode) |
 | Borrowing Fee | 0.1% | One-time fee on debt |
 | Redemption Fee | 0.75% | Fee on redeemed amount |
-| Min Debt | 1,800 MUSD | Minimum trove debt |
+| Min Debt | 1,800 MUSD | Minimum trove debt (net of 200 MUSD liquidation deposit) |
 | Interest Rate | Variable | Per-trove, fixed at open, can refinance |
 
 ### Networks

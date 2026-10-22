@@ -4,6 +4,7 @@
   "chainId": 31611,
   "nativeCurrency": { "symbol": "BTC", "name": "Bitcoin", "decimals": 18 },
   "tokens": [
-    { "symbol": "MEZO", "name": "MEZO", "decimals": 18, "address": "0x7B7c000000000000000000000000000000000001" }
+    { "symbol": "MEZO", "name": "MEZO", "decimals": 18, "address": "0x7B7c000000000000000000000000000000000001" },
+    { "symbol": "MUSD", "name": "Mezo USD", "decimals": 18, "address": "0x118917a40FAF1CD7a13dB0Ef56C86De7973Ac503" }
   ]
 }

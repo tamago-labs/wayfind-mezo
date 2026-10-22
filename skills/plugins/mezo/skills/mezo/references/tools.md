@@ -63,20 +63,19 @@ Get transaction details and status.
 ## MUSD Trove Management
 
 ### `musd_open_trove`
-Open a trove: deposit BTC collateral and mint MUSD.
+Open a trove: deposit BTC collateral and mint MUSD. Pass amounts as hex strings.
 
 **Parameters:**
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `maxFeePercentage` | string | Yes | Max borrowing fee in bps (e.g., `500` for 5%) |
-| `musdAmount` | string | Yes | MUSD to mint in base units (18 decimals) |
-| `collateralAmount` | string | Yes | BTC to deposit in base units (wei) |
+| `musdAmount` | string | Yes | Total MUSD debt. Pass as decimal (e.g., `'2000'` → receives 1800 after 200 gas comp burned). Must be >= 2000 for min 1800 received. |
+| `collateralAmount` | string | Yes | BTC to deposit. Pass as decimal (e.g., `'0.03'` for 0.03 BTC). Must maintain >= 110% ICR. |
 
-**Returns:** `{ signature, collateral, musdMinted }`
+**Returns:** `{ signature, collateral, musdRequested, fee, gasCompensation, totalDebt }`
 
-**Example:** "Open a trove with 0.5 BTC and mint 10000 MUSD"
+**Example:** "Open a trove with 0.03 BTC and borrow 2000 MUSD"
 
-> **Note:** Min debt is 1,800 MUSD. Min collateralization is 110%. Borrowing fee is 0.1%.
+> **Note:** 200 MUSD liquidation fee deposit added to debt (accrues interest, refunded on repayment). Borrowing fee: 0.1%. Min debt: 1,800 MUSD. Min ICR: 110%.
 
 ---
 
@@ -227,20 +226,6 @@ Liquidate an underwater trove (ICR < 110%). Earn gas compensation + collateral r
 ---
 
 ## Protocol Info
-
-### `musd_get_balance`
-Get MUSD token balance.
-
-**Parameters:**
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `account` | string | No | Defaults to server's wallet |
-
-**Returns:** `{ account, musdBalance, tokenAddress }`
-
-**Example:** "How much MUSD do I have?"
-
----
 
 ### `musd_get_protocol_constants`
 Get protocol constants: CCR, MCR, redemption fee.

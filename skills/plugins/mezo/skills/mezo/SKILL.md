@@ -80,7 +80,7 @@ Mezo exposes 20 MCP tools. Route by user intent:
 
 | User intent | Tool |
 |---|---|
-| "Check MUSD balance" | `musd_get_balance` |
+
 | "Protocol constants" | `musd_get_protocol_constants` |
 | "System overview" | `musd_get_system_overview` |
 | "Current interest rate" | `musd_get_interest_rate` |
@@ -92,7 +92,7 @@ Mezo exposes 20 MCP tools. Route by user intent:
 **Mint MUSD intent** ("borrow MUSD", "mint stablecoins", "open trove"):
 1. Use `musd_get_protocol_constants` to show CCR/MCR/min debt
 2. Use `musd_get_borrowing_fee` to estimate the fee
-3. Use `musd_open_trove` with collateral + debt amount
+3. Use `musd_open_trove` with musdAmount + collateralAmount (human-readable, e.g., '2000' and '0.03')
 
 **Manage trove intent** ("add collateral", "repay debt", "close position"):
 1. Use `musd_get_trove_status` to check current state

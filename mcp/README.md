@@ -116,7 +116,6 @@ WALLET_PASSKEY="new-passphrase" npx tsx scripts/recover-wallet.ts "your mnemonic
 | Tool | Description |
 |------|-------------|
 | `musd_get_trove_status` | Collateral, debt, ICR, interest |
-| `musd_get_balance` | MUSD token balance |
 | `musd_get_stability_pool` | Staked MUSD + collateral gains |
 | `musd_get_borrowing_fee` | Fee estimate for amount |
 | `musd_get_system_overview` | TCR, total debt, trove count, BTC price |
@@ -128,7 +127,7 @@ WALLET_PASSKEY="new-passphrase" npx tsx scripts/recover-wallet.ts "your mnemonic
 
 | Tool | Description |
 |------|-------------|
-| `musd_open_trove` | Deposit BTC, mint MUSD |
+| `musd_open_trove` | Deposit BTC, borrow MUSD. 200 MUSD liquidation deposit added to debt. Pass human-readable amounts. |
 | `musd_add_collateral` | Add BTC to trove |
 | `musd_withdraw_collateral` | Remove BTC from trove |
 | `musd_repay_musd` | Pay back MUSD debt |

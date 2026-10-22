@@ -9,6 +9,13 @@ function getBorrowerOps(rpcUrl: string, wallet: Wallet) {
   return new Contract(getContracts().borrowerOperations, BORROWER_OPS_ABI, wallet);
 }
 
+function b(v: string | number): bigint {
+  if (typeof v === "number") return BigInt(v);
+  if (v.startsWith("0x") || v.startsWith("0X")) return BigInt(v);
+  return BigInt(v);
+}
+
+
 function getSortedTroves(rpcUrl: string) {
   return new Contract(getContracts().sortedTroves, SORTED_TROVES_ABI, new JsonRpcProvider(rpcUrl));
 }
@@ -17,15 +24,15 @@ function getHintHelpers(rpcUrl: string) {
   return new Contract(getContracts().hintHelpers, HINT_HELPERS_ABI, new JsonRpcProvider(rpcUrl));
 }
 
-async function getHints(rpcUrl: string, nicr?: bigint, upperHint?: string) {
+async function getHints(rpcUrl: string, nicr: bigint, upperHint?: string) {
   const sortedTroves = getSortedTroves(rpcUrl);
 
   if (nicr) {
     const hintHelpers = getHintHelpers(rpcUrl);
     const numTrials = 15;
-    const randomSeed = Math.floor(Math.random() * 1e18);
+    const randomSeed = Math.floor(Math.random() * 1e6);
     const { '0': approxHint } = await hintHelpers.getApproxHint(nicr, numTrials, randomSeed);
-    const { '0': upper, '1': lower } = await sortedTroves.findInsertPosition(nnicr, approxHint, approxHint);
+    const { '0': upper, '1': lower } = await sortedTroves.findInsertPosition(nicr, approxHint, approxHint);
     return { upperHint: upper, lowerHint: lower };
   }
 
@@ -40,7 +47,6 @@ async function getHints(rpcUrl: string, nicr?: bigint, upperHint?: string) {
 export async function openTrove(
   rpcUrl: string,
   privateKey: string,
-  maxFeePercentage: string,
   musdAmount: string,
   collateralAmount: string
 ) {
@@ -48,22 +54,34 @@ export async function openTrove(
   const wallet = new Wallet(privateKey, provider);
   const borrowerOps = getBorrowerOps(rpcUrl, wallet);
 
-  const nicr = (BigInt(collateralAmount) * BigInt(1e20)) / BigInt(musdAmount);
+  const collateralWei = b(collateralAmount);
+  const musdWei = b(musdAmount);
+
+  const fee = await borrowerOps.getBorrowingFee(musdWei);
+  const debtAmount = musdWei + fee;
+
+  const nicr = (collateralWei * b(1e20)) / debtAmount;
+
   const { upperHint, lowerHint } = await getHints(rpcUrl, nicr);
 
   const tx = await borrowerOps.openTrove(
-    BigInt(maxFeePercentage),
-    BigInt(musdAmount),
+    debtAmount,
     upperHint,
     lowerHint,
-    { value: BigInt(collateralAmount) }
+    { value: collateralWei }
   );
   const receipt = await tx.wait();
+
+  const compositeDebt = debtAmount + b(200000000000000000000n);
 
   return {
     signature: receipt?.hash,
     collateral: collateralAmount,
-    musdMinted: musdAmount,
+    musdBorrowed: musdAmount,
+    borrowingFee: fee.toString(),
+    liquidationDeposit: "200000000000000000000",
+    totalDebt: compositeDebt.toString(),
+    netDebt: debtAmount.toString(),
     upperHint,
     lowerHint,
   };
@@ -80,8 +98,8 @@ export async function addCollateral(
   const wallet = new Wallet(privateKey, provider);
   const borrowerOps = getBorrowerOps(rpcUrl, wallet);
 
-  const hints = await getHints(rpcUrl, undefined, upperHint);
-  const tx = await borrowerOps.addColl(hints.upperHint, hints.lowerHint, { value: BigInt(collateralAmount) });
+  const hints = await getHints(rpcUrl, 0n, upperHint);
+  const tx = await borrowerOps.addColl(hints.upperHint, hints.lowerHint, { value: b(collateralAmount) });
   const receipt = await tx.wait();
 
   return { signature: receipt?.hash, collateralAdded: collateralAmount };
@@ -98,8 +116,8 @@ export async function withdrawCollateral(
   const wallet = new Wallet(privateKey, provider);
   const borrowerOps = getBorrowerOps(rpcUrl, wallet);
 
-  const hints = await getHints(rpcUrl, undefined, upperHint);
-  const tx = await borrowerOps.withdrawColl(BigInt(collateralAmount), hints.upperHint, hints.lowerHint);
+  const hints = await getHints(rpcUrl, 0n, upperHint);
+  const tx = await borrowerOps.withdrawColl(b(collateralAmount), hints.upperHint, hints.lowerHint);
   const receipt = await tx.wait();
 
   return { signature: receipt?.hash, collateralWithdrawn: collateralAmount };
@@ -116,8 +134,8 @@ export async function repayMUSD(
   const wallet = new Wallet(privateKey, provider);
   const borrowerOps = getBorrowerOps(rpcUrl, wallet);
 
-  const hints = await getHints(rpcUrl, undefined, upperHint);
-  const tx = await borrowerOps.repayMUSD(BigInt(musdAmount), hints.upperHint, hints.lowerHint);
+  const hints = await getHints(rpcUrl, 0n, upperHint);
+  const tx = await borrowerOps.repayMUSD(b(musdAmount), hints.upperHint, hints.lowerHint);
   const receipt = await tx.wait();
 
   return { signature: receipt?.hash, repaid: musdAmount };
@@ -139,7 +157,7 @@ export async function stakeMUSD(rpcUrl: string, privateKey: string, amount: stri
   const wallet = new Wallet(privateKey, provider);
   const sp = new Contract(getContracts().stabilityPool, STABILITY_POOL_ABI, wallet);
 
-  const tx = await sp.provideToSP(BigInt(amount), "0x0000000000000000000000000000000000000000", "0x0000000000000000000000000000000000000000");
+  const tx = await sp.provideToSP(b(amount), "0x0000000000000000000000000000000000000000", "0x0000000000000000000000000000000000000000");
   const receipt = await tx.wait();
 
   return { signature: receipt?.hash, staked: amount };
@@ -150,7 +168,7 @@ export async function unstakeMUSD(rpcUrl: string, privateKey: string, amount: st
   const wallet = new Wallet(privateKey, provider);
   const sp = new Contract(getContracts().stabilityPool, STABILITY_POOL_ABI, wallet);
 
-  const tx = await sp.withdrawFromSP(BigInt(amount), "0x0000000000000000000000000000000000000000", "0x0000000000000000000000000000000000000000");
+  const tx = await sp.withdrawFromSP(b(amount), "0x0000000000000000000000000000000000000000", "0x0000000000000000000000000000000000000000");
   const receipt = await tx.wait();
 
   return { signature: receipt?.hash, withdrawn: amount };
@@ -167,13 +185,13 @@ export async function redeemMUSD(
   const troveManager = new Contract(getContracts().troveManager, TROVE_MANAGER_ABI, wallet);
 
   const tx = await troveManager.redeemCollateral(
-    BigInt(musdAmount),
+    b(musdAmount),
     "0x0000000000000000000000000000000000000000",
     "0x0000000000000000000000000000000000000000",
     "0x0000000000000000000000000000000000000000",
     "0",
     "0",
-    BigInt(maxFeePercentage)
+    b(maxFeePercentage)
   );
   const receipt = await tx.wait();
 

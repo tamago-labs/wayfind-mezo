@@ -11,7 +11,6 @@ export const McpTools: Record<string, McpTool> = {
   GetTransaction: GetTransactionTool,
   SendTokens: SendTokensTool,
   MusdTroveStatus: MusdTools.MusdTroveStatusTool,
-  MusdBalance: MusdTools.MusdBalanceTool,
   MusdStabilityPool: MusdTools.MusdStabilityPoolTool,
   MusdBorrowingFee: MusdTools.MusdBorrowingFeeTool,
   MusdSystemOverview: MusdTools.MusdSystemOverviewTool,
