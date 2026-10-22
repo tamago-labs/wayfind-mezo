@@ -48,5 +48,4 @@ Mezo is a Bitcoin-native DeFi platform that lets BTC holders mint MUSD — a USD
 1. **Open Trove** — Deposit BTC, mint MUSD (min 1,800 MUSD debt, min 110% ICR)
 2. **Stability Pool** — Stake MUSD to earn liquidation rewards (BTC gains)
 3. **Redemption** — Burn MUSD for BTC at $1 value (maintains peg floor)
-4. **Liquidation** — Anyone can liquidate underwater troves (earns collateral reward)
-5. **Peg Mechanism** — Redemptions create $1 floor, 110% MCR creates $1.10 ceiling
+4. **Peg Mechanism** — Redemptions create $1 floor, 110% MCR creates $1.10 ceiling

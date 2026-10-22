@@ -6,7 +6,7 @@ description: >
   Stability Pool (stake/unstake MUSD, earn liquidation rewards), redemptions (burn MUSD for BTC at $1 peg), and liquidations (earn rewards by liquidating underwater troves).
   Use this skill whenever the user mentions Mezo, MUSD, borrowing against BTC, minting stablecoins, troves, Stability Pool, liquidations, redemptions,
   CDP positions, collateralized debt, or BTC-backed stablecoins.
-  Also invoke when the user wants to check balances, send tokens, mint MUSD, manage trove positions, stake MUSD, redeem MUSD, or liquidate troves.
+  Also invoke when the user wants to check balances, send tokens, mint MUSD, manage trove positions, stake MUSD, or redeem MUSD.
 ---
 
 # Mezo
@@ -69,12 +69,11 @@ Mezo exposes 20 MCP tools. Route by user intent:
 | "Unstake MUSD" | `musd_unstake_musd` |
 | "Check staked balance" | `musd_get_stability_pool` |
 
-### Redemptions & Liquidations
+### Redemptions
 
 | User intent | Tool |
 |---|---|
 | "Redeem MUSD for BTC" | `musd_redeem` |
-| "Liquidate a trove" | `musd_liquidate` |
 
 ### Protocol info
 
@@ -107,10 +106,6 @@ Mezo exposes 20 MCP tools. Route by user intent:
 1. Use `musd_get_balance` to confirm MUSD balance
 2. Use `musd_get_protocol_constants` to show redemption fee
 3. Use `musd_redeem` to burn MUSD for BTC
-
-**Liquidate intent** ("liquidate underwater trove"):
-1. Use `musd_get_trove_status` to confirm trove is underwater (ICR < 110%)
-2. Use `musd_liquidate` with the borrower address
 
 ## Execution rules
 

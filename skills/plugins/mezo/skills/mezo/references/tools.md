@@ -209,8 +209,6 @@ Redeem MUSD for BTC at $1 peg (minus 0.75% fee).
 
 ---
 
-### `musd_liquidate`
-Liquidate an underwater trove (ICR < 110%). Earn gas compensation + collateral reward.
 
 **Parameters:**
 | Name | Type | Required | Description |
@@ -285,3 +283,4 @@ Get max additional MUSD debt a trove can take.
 **Returns:** `{ borrower, maxBorrowingCapacity }`
 
 **Example:** "How much more MUSD can I borrow?"
+

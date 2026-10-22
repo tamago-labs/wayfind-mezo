@@ -135,7 +135,6 @@ WALLET_PASSKEY="new-passphrase" npx tsx scripts/recover-wallet.ts "your mnemonic
 | `musd_stake_musd` | Stake MUSD in Stability Pool |
 | `musd_unstake_musd` | Withdraw staked MUSD |
 | `musd_redeem` | Burn MUSD for BTC at $1 peg |
-| `musd_liquidate` | Liquidate underwater troves |
 
 ## Client Configuration
 

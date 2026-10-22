@@ -25,5 +25,4 @@ export const McpTools: Record<string, McpTool> = {
   MusdProtocolConstants: MusdTools.MusdProtocolConstantsTool,
   MusdMaxBorrowingCapacity: MusdTools.MusdMaxBorrowingCapacityTool,
   MusdRedeem: MusdTools.MusdRedeemTool,
-  MusdLiquidate: MusdTools.MusdLiquidateTool,
 };
