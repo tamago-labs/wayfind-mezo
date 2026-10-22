@@ -54,10 +54,10 @@ MUSD maintains its $1 peg through arbitrage:
 
 - **Passkey-based wallet** — No private key management, encrypted with PBKDF2 + sodium
 - **Multi-chain** — Mezo, Ethereum (Sepolia), Bitcoin testnet
-- **Full MUSD lifecycle** — Borrow, stake, redeem, liquidate
+- **Full MUSD lifecycle** — Borrow, stake, redeem
 - **Gas-efficient hints** — Automatic sorted trove insertion hints
 - **BTC transaction signing** — Native Bitcoin testnet support
-- **20 tools** — Complete coverage of wallet + MUSD operations
+- **19 tools** — Complete coverage of wallet + MUSD operations
 
 ## Install
 
@@ -100,7 +100,7 @@ If the wallet file is lost but you have the mnemonic:
 WALLET_PASSKEY="new-passphrase" npx tsx scripts/recover-wallet.ts "your mnemonic phrase"
 ```
 
-## Tools (20)
+## Tools (19)
 
 ### Wallet Operations
 
@@ -209,8 +209,9 @@ mcp/
 │   ├── index.ts           # MCP server bootstrap
 │   ├── mcp/
 │   │   ├── index.ts       # Tool registry
-│   │   ├── musd/          # MUSD tool definitions (15 tools)
-│   │   └── shared/        # Shared wallet tools
+│   │   ├── musd/          # MUSD trove tools (13 tools)
+│   │   ├── staking/       # Stability Pool tools (2 tools)
+│   │   └── shared/        # Shared wallet tools (4 tools)
 │   ├── types.ts           # McpTool interface
 │   └── utils/
 │       ├── evm-balance.ts # EVM native + ERC-20 balance queries

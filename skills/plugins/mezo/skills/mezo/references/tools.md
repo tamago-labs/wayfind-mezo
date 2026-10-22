@@ -210,17 +210,6 @@ Redeem MUSD for BTC at $1 peg (minus 0.75% fee).
 ---
 
 
-**Parameters:**
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `borrower` | string | Yes | Address of trove to liquidate |
-
-**Returns:** `{ signature, liquidated }`
-
-**Example:** "Liquidate trove 0x1234..."
-
-> **Note:** Only works when trove ICR < 110%.
-
 ---
 
 ## Protocol Info
